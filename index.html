@@ -88,38 +88,42 @@
   .arche-card .names-list{ margin-top:14px; font-size:11px; color:var(--ink-soft); }
 
   /* ===== プロフィール ===== */
-  .profiles{ display:grid; grid-template-columns:1fr 1fr; gap:26px; }
+  .profiles{
+    display:grid; grid-template-columns:1fr 1fr;
+    grid-template-rows:repeat(9, auto);
+    gap:26px; align-items:stretch;
+  }
   .profile-card{
-    background:#fff; border-radius:4px; padding:36px 30px; position:relative;
+    display:grid; grid-template-rows:subgrid; grid-row:span 9;
+    background:#fff; border-radius:4px; padding:32px 28px; position:relative;
     box-shadow:0 16px 40px rgba(74,64,56,0.06);
   }
-  .profile-card::before{ content:""; position:absolute; top:0; left:30px; right:30px; height:2px; }
+  .profile-card::before{ content:""; position:absolute; top:0; left:28px; right:28px; height:2px; }
   .profile-card.hokuto::before{ background:linear-gradient(90deg, var(--sky), var(--sky-deep)); }
   .profile-card.momona::before{ background:linear-gradient(90deg, var(--sakura), var(--sakura-deep)); }
   .profile-card .role{
     font-family:"Cormorant Garamond", serif; font-style:italic; font-size:11.5px;
-    letter-spacing:0.1em; color:var(--ink-soft); text-transform:uppercase; margin-top:16px;
+    letter-spacing:0.1em; color:var(--ink-soft); text-transform:uppercase; margin-top:14px; align-self:start;
   }
-  .profile-card h3{ font-family:"Shippori Mincho", serif; font-weight:700; font-size:21px; margin:6px 0 2px; }
-  .profile-card .en-name{ font-family:"Cormorant Garamond", serif; font-size:12px; color:var(--ink-soft); }
+  .profile-card h3{ font-family:"Shippori Mincho", serif; font-weight:700; font-size:20px; margin:4px 0 0; align-self:start; }
+  .profile-card .en-name{ font-family:"Cormorant Garamond", serif; font-size:11.5px; color:var(--ink-soft); align-self:start; }
   .profile-card .formula{
-    margin-top:14px; font-size:11px; color:var(--ink-soft); line-height:1.85;
-    border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:11px 0;
+    margin-top:12px; font-size:10.5px; color:var(--ink-soft); line-height:1.7;
+    border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:9px 0; align-self:start;
   }
-  .profile-card .lead{ margin-top:16px; font-family:"Shippori Mincho", serif; font-size:14px; font-weight:600; }
+  .profile-card .lead{ margin-top:14px; font-family:"Shippori Mincho", serif; font-size:13.5px; font-weight:600; align-self:start; }
   .profile-card.hokuto .lead{ color:var(--sky-deep); }
   .profile-card.momona .lead{ color:var(--sakura-deep); }
-  .profile-card p.body{ font-size:12px; line-height:1.95; color:var(--ink); margin-top:8px; }
-  .profile-card p.body + p.body{ margin-top:12px; }
-  .tag-row{ display:flex; flex-wrap:wrap; gap:6px; margin-top:14px; }
+  .profile-card p.body{ font-size:11.5px; line-height:1.85; color:var(--ink); margin-top:10px; align-self:start; }
+  .tag-row{ display:flex; flex-wrap:wrap; align-content:flex-end; gap:6px; margin-top:12px; align-self:end; }
   .tag{
-    font-size:10px; padding:3px 9px; border-radius:20px; background:var(--sky-pale);
+    font-size:9.5px; padding:3px 9px; border-radius:20px; background:var(--sky-pale);
     color:var(--sky-deep); font-weight:600;
   }
   .profile-card.momona .tag{ background:var(--sakura-pale); color:var(--sakura-deep); }
   .health-note{
-    margin-top:14px; padding:10px 13px; background:rgba(180,105,63,0.07);
-    border-left:2px solid var(--plum); font-size:11px; line-height:1.8; color:var(--ink);
+    margin-top:12px; padding:9px 12px; background:rgba(180,105,63,0.07);
+    border-left:2px solid var(--plum); font-size:10.5px; line-height:1.7; color:var(--ink); align-self:end;
   }
 
   /* ===== 谷から澤へ / カード共通 ===== */
@@ -220,18 +224,175 @@
     .hero h1{ font-size:26px; }
     .tl-item{ grid-template-columns:56px 1fr; }
   }
+
+  /* ===== 読了プログレス（羅針の糸） ===== */
+  .progress-rail{
+    position:fixed; top:0; left:0; width:100%; height:2px; z-index:200;
+    background:rgba(74,64,56,0.05);
+  }
+  .progress-fill{
+    height:100%; width:0%;
+    background:linear-gradient(90deg, var(--sky-deep), var(--gold), var(--sakura-deep));
+    transition:width 0.08s linear;
+  }
+
+  /* ===== 方位盤（コンパスローズ）― サイン要素 ===== */
+  .compass-rose{
+    position:absolute; top:50%; left:50%; width:640px; height:640px;
+    transform:translate(-50%,-50%); pointer-events:none; opacity:0.35;
+    animation:rose-spin 200s linear infinite;
+  }
+  .compass-rose circle{ fill:none; stroke:var(--ink-soft); }
+  .compass-rose .ring-a{ stroke-width:0.6; stroke-dasharray:1 7; opacity:0.55; }
+  .compass-rose .ring-b{ stroke-width:0.5; opacity:0.3; }
+  .compass-rose .tick{ stroke:var(--gold); stroke-width:1; opacity:0.5; }
+  @keyframes rose-spin{ from{ transform:translate(-50%,-50%) rotate(0deg); } to{ transform:translate(-50%,-50%) rotate(360deg); } }
+
+  .sec-title-mark{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:34px; height:34px; margin:0 auto 14px; border-radius:50%;
+    border:1px solid var(--line); position:relative;
+  }
+  .sec-title-mark::before, .sec-title-mark::after{
+    content:""; position:absolute; background:var(--gold);
+  }
+  .sec-title-mark::before{ width:1px; height:12px; top:2px; left:50%; transform:translateX(-50%); }
+  .sec-title-mark::after{ width:12px; height:1px; left:2px; top:50%; transform:translateY(-50%); }
+  .sec-title-mark .dot{ width:4px; height:4px; border-radius:50%; background:var(--sakura-deep); }
+  .sec-title-wrap{ display:flex; flex-direction:column; align-items:center; }
+
+  /* ===== スクロールリビール ===== */
+  .reveal{
+    opacity:0; transform:translateY(18px);
+    transition:opacity 0.7s cubic-bezier(.22,.61,.36,1), transform 0.7s cubic-bezier(.22,.61,.36,1);
+  }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+  .reveal-stagger.in .stagger-child{ opacity:1; transform:translateY(0); }
+  .stagger-child{
+    opacity:0; transform:translateY(14px);
+    transition:opacity 0.6s cubic-bezier(.22,.61,.36,1), transform 0.6s cubic-bezier(.22,.61,.36,1);
+  }
+  .stagger-child:nth-child(1){ transition-delay:0.02s; }
+  .stagger-child:nth-child(2){ transition-delay:0.12s; }
+  .stagger-child:nth-child(3){ transition-delay:0.22s; }
+  .stagger-child:nth-child(4){ transition-delay:0.32s; }
+  .stagger-child:nth-child(5){ transition-delay:0.42s; }
+
+  /* ===== ホバーの微動 ===== */
+  .arche-card, .profile-card, .synergy-card, .compass-card, .talent-card, .bond-full, .card, .verify-box{
+    transition:transform 0.35s cubic-bezier(.22,.61,.36,1), box-shadow 0.35s ease;
+  }
+  .arche-card:hover, .profile-card:hover, .synergy-card:hover, .compass-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 22px 48px rgba(74,64,56,0.11);
+  }
+  .talent-card{ transition:transform 0.35s cubic-bezier(.22,.61,.36,1), background 0.35s ease; }
+  .talent-card:hover{ transform:translateY(-4px); background:#fdeaf1; }
+
+  /* ===== 天中殺の共通点バッジ ===== */
+  .shared-note{
+    grid-column:1 / -1; text-align:center; margin-top:6px;
+    display:flex; align-items:center; justify-content:center; gap:12px;
+    font-size:11px; color:var(--ink-soft); letter-spacing:0.03em;
+  }
+  .shared-note .pill{
+    display:inline-flex; align-items:center; gap:6px; padding:6px 14px; border-radius:20px;
+    background:#fff; border:1px solid var(--line); font-weight:700; color:var(--ink);
+  }
+  .shared-note .pill .dot2{ width:5px; height:5px; border-radius:50%; background:linear-gradient(90deg, var(--sky-deep), var(--sakura-deep)); }
+  .shared-note .desc{ max-width:420px; text-align:left; line-height:1.8; }
+
+  .hero-in{
+    opacity:0; animation:hero-rise 0.9s cubic-bezier(.22,.61,.36,1) forwards;
+  }
+  @keyframes hero-rise{
+    from{ opacity:0; transform:translateY(14px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    .reveal, .stagger-child{ opacity:1 !important; transform:none !important; transition:none !important; }
+    .hero-in{ opacity:1 !important; animation:none !important; transform:none !important; }
+    .compass-rose{ animation:none; }
+    .arche-card, .profile-card, .synergy-card, .compass-card{ transition:none; }
+  }
+
+  /* ===== 座右の四字熟語（印章バッジ） ===== */
+  .motto{
+    margin-top:14px; display:flex; align-items:center; gap:12px;
+    padding:10px 13px; border-radius:4px; background:rgba(203,174,126,0.08);
+    border:1px solid rgba(203,174,126,0.35); align-self:start;
+  }
+  .motto .seal{
+    flex:0 0 auto; width:38px; height:38px; border-radius:6px;
+    background:var(--plum); color:#fff; display:flex; align-items:center; justify-content:center;
+    font-family:"Shippori Mincho", serif; font-weight:800; font-size:10px; line-height:1.15;
+    text-align:center; letter-spacing:0.02em; box-shadow:0 3px 8px rgba(180,105,63,0.3);
+    transform:rotate(-2deg);
+  }
+  .motto .txt{ flex:1; min-width:0; }
+  .motto .txt .yomi{
+    font-family:"Cormorant Garamond", serif; font-style:italic; font-size:10px;
+    color:var(--gold); letter-spacing:0.03em;
+  }
+  .motto .txt .expl{ font-size:10.5px; color:var(--ink); line-height:1.6; margin-top:2px; }
+  .motto .txt .src{ font-size:9px; color:var(--ink-soft); opacity:0.75; margin-top:2px; }
+
+  /* ===== 二つの四字熟語 対比カード（Ch.05） ===== */
+  .motto-pair{
+    display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:18px;
+    background:#fff; border-radius:4px; padding:30px 28px; margin-bottom:18px;
+    box-shadow:0 16px 40px rgba(74,64,56,0.06);
+  }
+  .motto-pair .side{ text-align:center; }
+  .motto-pair .side .seal{ width:64px; height:64px; margin:0 auto 12px; font-size:15px; box-shadow:0 4px 12px rgba(180,105,63,0.32); }
+  .motto-pair .side.h .seal{ background:var(--sky-deep); transform:rotate(2deg); }
+  .motto-pair .side.m .seal{ background:var(--sakura-deep); transform:rotate(-2deg); }
+  .motto-pair .side .yomi{ font-family:"Cormorant Garamond", serif; font-style:italic; font-size:10.5px; color:var(--ink-soft); letter-spacing:0.04em; }
+  .motto-pair .side .kun{ font-family:"Shippori Mincho", serif; font-size:13.5px; font-weight:700; color:var(--ink); margin:4px 0 8px; }
+  .motto-pair .side p{ font-size:11.5px; line-height:1.85; color:var(--ink); text-align:left; }
+  .motto-pair .side .src{ font-size:9.5px; color:var(--ink-soft); margin-top:8px; display:block; }
+  .motto-pair .center-mark{ width:1px; height:100%; min-height:120px; background:var(--line); position:relative; }
+  .motto-pair .center-mark .plus{
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    width:26px; height:26px; border-radius:50%; background:var(--paper);
+    border:1px solid var(--line); display:flex; align-items:center; justify-content:center;
+    font-family:"Cormorant Garamond", serif; font-style:italic; font-size:13px; color:var(--gold);
+  }
+  .motto-synth{ background:#fff; border-radius:4px; padding:26px 30px; box-shadow:0 16px 40px rgba(74,64,56,0.06); }
+  .motto-synth p{ font-size:12.5px; line-height:2; color:var(--ink); }
+
+  @media (max-width:760px){
+    .motto-pair{ grid-template-columns:1fr; }
+    .motto-pair .center-mark{ width:100%; height:1px; min-height:0; margin:6px 0; }
+    .shared-note{ flex-direction:column; gap:8px; }
+    .compass-rose{ width:420px; height:420px; }
+  }
 </style>
 </head>
 <body>
 
+<div class="progress-rail"><div class="progress-fill" id="progressFill"></div></div>
+
 <!-- ============ HERO ============ -->
 <div class="hero">
-  <div class="wrap">
-    <div class="kicker">Complete Integrated Kantei Record</div>
-    <h1>二つの星が<br>出会うということ</h1>
-    <div class="names">HOKUTO AKAMINE &nbsp;×&nbsp; MOMONA ARAI ／ 九星気学 統合鑑定書（完全版）</div>
-    <div class="divider"><div class="ln"></div><div class="dot"></div><div class="ln r"></div></div>
-    <p class="lede">
+  <svg class="compass-rose" viewBox="0 0 640 640" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <circle class="ring-b" cx="320" cy="320" r="300"/>
+    <circle class="ring-a" cx="320" cy="320" r="255"/>
+    <circle class="ring-b" cx="320" cy="320" r="180"/>
+    <g class="tick">
+      <line x1="320" y1="20" x2="320" y2="44"/>
+      <line x1="320" y1="596" x2="320" y2="620"/>
+      <line x1="20" y1="320" x2="44" y2="320"/>
+      <line x1="596" y1="320" x2="620" y2="320"/>
+    </g>
+  </svg>
+  <div class="wrap" style="position:relative;">
+    <div class="kicker hero-in" style="animation-delay:0.05s;">Complete Integrated Kantei Record</div>
+    <h1 class="hero-in" style="animation-delay:0.16s;">二つの星が<br>出会うということ</h1>
+    <div class="names hero-in" style="animation-delay:0.26s;">HOKUTO AKAMINE &nbsp;×&nbsp; MOMONA ARAI ／ 九星気学 統合鑑定書（完全版）</div>
+    <div class="divider hero-in" style="animation-delay:0.36s;"><div class="ln"></div><div class="dot"></div><div class="ln r"></div></div>
+    <p class="lede hero-in" style="animation-delay:0.46s;">
       朝靄がまだ薄く残る時刻の、あの<em>淡いブルー</em>。<br>
       そこへ静かに滲んでいく、<em>桜のひとひら</em>のような光。<br><br>
       個人の資質から、二人の相性、そして転居先の吉方位まで。<br>
@@ -243,58 +404,80 @@
 <!-- ============ 01 時代を創るリーダーたちの成功法則 ============ -->
 <section>
   <div class="wrap">
+    <div class="sec-title-mark"><span class="dot"></span></div>
     <div class="sec-eyebrow">Chapter 01</div>
     <div class="sec-title">時代を創るリーダーたちの成功法則</div>
-    <div class="archetypes">
-      <div class="arche-card sakura">
+    <div class="sec-lede">個人の資質を見る前に、まず二つの「気」の本質から。お二人それぞれの命式に流れる星が、この二つのどちらに連なるかは、次の章で明らかになる。</div>
+    <div class="archetypes reveal-stagger reveal">
+      <div class="arche-card sakura stagger-child">
         <div class="kanji">澤</div>
         <div class="star">七赤金星 ― Platform Builders</div>
-        <p>窪地に水が自然と集まるように、「人・情報・お金」をダイナミックに引き寄せ、時代を動かす「場」を築き上げる才。時代を読む直感と、人の心を動かす言葉の力を併せ持つ。</p>
+        <p>窪地に水が集まるように、「人・情報・お金」を引き寄せ、時代を動かす「場」を築く才。そこに在るだけで人が集まる、そういう質の引力を持つ。</p>
         <div class="names-list">織田信長 ／ 渋沢栄一 ／ 孫正義</div>
       </div>
-      <div class="arche-card sky">
+      <div class="arche-card sky stagger-child">
         <div class="kanji">風</div>
         <div class="star">四緑木星 ― Network Builders</div>
         <p>風のように軽やかに人の懐へ入り込み、争いを避けながら、静かにご縁を結んでいく。求めずして人が集まる、調和のネットワーク構築者。</p>
         <div class="names-list">豊臣秀吉 ／ 聖徳太子</div>
       </div>
     </div>
+    <p style="text-align:center; font-size:11.5px; color:var(--ink-soft); margin-top:24px;">Hokuto様には「風」が、Momona様には「澤」が、主要な星として刻まれている。</p>
   </div>
 </section>
 
 <!-- ============ 02 それぞれの輝き ============ -->
 <section class="tinted">
   <div class="wrap">
+    <div class="sec-title-mark"><span class="dot"></span></div>
     <div class="sec-eyebrow">Chapter 02</div>
     <div class="sec-title">それぞれの輝き</div>
-    <div class="profiles">
-      <div class="profile-card hokuto">
+    <div class="profiles reveal-stagger reveal">
+      <div class="profile-card hokuto stagger-child">
         <div class="role">Profile — The Balancer</div>
         <h3>赤嶺 魁</h3>
         <div class="en-name">HOKUTO AKAMINE ／ 1996年6月27日生 ／ 干支：丙子 ／ 天中殺：辰巳</div>
         <div class="formula">年・月・傾斜：四緑木星（風）／ 日：五黄土星（帝王）／ 隠れ気質：三碧木星（雷）</div>
         <div class="lead">最強のエンジンを積んだ、究極のバランサー</div>
-        <p class="body">8万通り中「TOP10」と称される、奇跡的な命式。表面上は風のように柔らかく誰とでも調和し、味方を増やしながら、内側には五黄・帝王の絶対に折れない芯と決断力を宿す。聖徳太子と同一の星を持つと鑑定。</p>
-        <p class="body">聖徳太子や豊臣秀吉のように、ゼロからイチを生み出し、外の世界へ向かってチャンスや人脈を爆発的に広げていく、圧倒的な求心力の持ち主。大勢を前にしたプレゼンテーションが最高の強み。</p>
+        <div class="motto">
+          <div class="seal">以和<br>爲貴</div>
+          <div class="txt">
+            <div class="yomi">いわいき ／ 和を以て貴しと為す</div>
+            <div class="expl">争わず、話し合いで和を結ぶ ― 聖徳太子が説いた生き方。</div>
+            <div class="src">十七条憲法 第一条</div>
+          </div>
+        </div>
+        <p class="body">8万通り中「TOP10」と称される命式。表は風のように柔らかく誰とでも調和し、内には五黄・帝王の折れない芯を宿す。聖徳太子と同じ星を持ち、ゼロからイチを生み出す圧倒的な求心力の持ち主。座右の「和」が、まさにこの星の本質と重なる。</p>
         <div class="health-note">健康：腰に注意。特に11月の山登りは厳重警戒。</div>
         <div class="tag-row">
           <span class="tag">健康／医療／美容</span><span class="tag">IT／AI</span><span class="tag">広報／コーチ</span>
           <span class="tag">SNS／コミュニティ運営</span><span class="tag">営業／客商売</span><span class="tag">執筆・伝統工芸</span>
         </div>
       </div>
-      <div class="profile-card momona">
+      <div class="profile-card momona stagger-child">
         <div class="role">Profile — The Builder of Fortune</div>
         <h3>荒井 ももな</h3>
         <div class="en-name">MOMONA ARAI ／ 1998年6月17日生 ／ 干支：戊寅 ／ 天中殺：辰巳</div>
         <div class="formula">年：二黒土星（谷）／ 月：七赤金星（澤）／ 日：八白土星（山）／ 傾斜：離宮（火）</div>
         <div class="lead">確実な富を築く、大器晩成のカリスマ</div>
-        <p class="body">あらゆるものを受け止める「谷」と、揺るぎない「山」の性質を併せ持ち、絶大な信頼を得るタイプ。谷の気質を欠くと欲になりやすい点には注意。内なる情熱（火）を、圧倒的な努力（土）で形にし、最終的に巨大な富と人脈（金＝澤）へと変換する。</p>
-        <p class="body">渋沢栄一や徳川家康の要素を併せ持つ、ディレクター気質。日干支の「山」（性格への表出は約10%）は、心を許した相手にだけ見せる素の顔。頑固さや譲れない芯として現れることも。</p>
+        <div class="motto">
+          <div class="seal">桃李<br>成蹊</div>
+          <div class="txt">
+            <div class="yomi">とうりせいけい</div>
+            <div class="expl">語らずとも、人が慕い寄る ― 李広を讃えた言葉。</div>
+            <div class="src">『史記』李将軍列伝</div>
+          </div>
+        </div>
+        <p class="body">あらゆるものを受け止める「谷」と揺るぎない「山」を併せ持ち、絶大な信頼を得るタイプ。内なる情熱を圧倒的な努力で形にする、渋沢栄一にも通じるディレクター気質。座右の「桃李成蹊」の通り、語らずとも人を惹きつける「澤」の気質が、すでに内に息づいている。</p>
         <div class="health-note">健康：今年は左足に注意（来年完治見込み）。呼吸器・胃腸の不調は先天的な気質として日頃の配慮を。</div>
         <div class="tag-row">
           <span class="tag">建築／土木／不動産</span><span class="tag">農業／飲食</span><span class="tag">教育／保育</span>
           <span class="tag">人材／組織コンサル</span><span class="tag">セミナー・研修</span><span class="tag">プログラミング</span>
         </div>
+      </div>
+      <div class="shared-note reveal">
+        <span class="pill"><span class="dot2"></span>天中殺：辰巳 ― 二人に共通</span>
+        <span class="desc">生まれた年・干支は異なるお二人だが、天中殺（運気の休息期）だけは辰巳で一致している。無理をすべき時期と、力を溜めるべき時期が自然と重なるということ。焦りどころも、休みどころも、同じリズムで訪れる。</span>
       </div>
     </div>
   </div>
@@ -303,11 +486,13 @@
 <!-- ============ 03 谷から澤へ ============ -->
 <section>
   <div class="wrap">
+    <div class="sec-title-mark"><span class="dot"></span></div>
     <div class="sec-eyebrow">Chapter 03</div>
     <div class="sec-title">谷から澤へ ― もう一つの気質</div>
-    <div class="card">
-      <p>鑑定を受ける前日、これまで友人や後輩から受け取った手紙を整理していた。そこに綴られていたのは、親しみやすさへの感謝と、憧れの言葉の数々。<span class="hl">本人にとっては当たり前の日常</span>だったが、以前受けた別の占いでも、同じことを指摘されていた。「何もしなくても、人に笑顔を届けることができる気質」だと。</p>
-      <p>これは偶然ではない。月干支に宿る<span class="hl">「澤」</span>――存在するだけで人を惹きつけ、悦びを与える星――が、本人の自覚とは関係なく、日々にじみ出ていたということ。長年「谷」として、縁の下で人を支え、堅実に積み上げてきた人の中に、実はもう一つ、陽の気質が静かに息づいている。</p>
+    <div class="card reveal">
+      <p>鑑定を受ける前日、友人や後輩から受け取った手紙を整理していた。綴られていたのは、親しみやすさへの感謝と憧れの言葉。<span class="hl">本人にとっては当たり前の日常</span>だったが、以前受けた別の占いでも同じことを指摘されていた。「何もしなくても、人に笑顔を届けることができる気質」だと。</p>
+      <p>これは偶然ではない。月干支に宿る<span class="hl">「澤」</span>――存在するだけで人を惹きつける星――が、日々にじみ出ていたということ。長年「谷」として人を支えてきた人の中に、実はもう一つ、陽の気質が息づいている。</p>
+      <p>本人が座右に置く<span class="hl">「桃李成蹊」</span>――桃李は語らずとも、その花と実に人が集まり道ができるという故事――は、まさにこの気質を言い当てる。口数少なく、それでいて誰よりも慕われた李広の在り方が、本人の姿と静かに重なる。<span class="hl">谷が土台を築き、澤が人を招き入れる</span>――次章では、この「澤」が歴史上どのような人物に宿ってきたかを見ていく。</p>
     </div>
   </div>
 </section>
@@ -315,9 +500,10 @@
 <!-- ============ 04 澤の系譜 ============ -->
 <section class="tinted">
   <div class="wrap">
+    <div class="sec-title-mark"><span class="dot"></span></div>
     <div class="sec-eyebrow">Chapter 04</div>
     <div class="sec-title">澤の系譜 ― 「場」をつくる人たち</div>
-    <div class="card blue">
+    <div class="card blue reveal">
       <p>七赤金星（澤）は、歴史上・現代を通じて大きな「場」を築いた人物に多く見られる星。窪地に水が自然と集まるように、人・情報・お金を引き寄せる気質を持つとされる。</p>
       <table class="sawa-table">
         <tr><td>歴史・財界</td><td>織田信長、渋沢栄一、孫正義</td></tr>
@@ -326,23 +512,24 @@
         <tr><td>文化人・クリエイター</td><td>夏目漱石、糸井重里</td></tr>
         <tr><td>各界のカリスマ</td><td>藤井聡太、タイガー・ウッズ、デビッド・ベッカム</td></tr>
       </table>
-      <div class="talent-grid">
-        <div class="talent-card">
+      <div class="talent-grid reveal-stagger reveal">
+        <div class="talent-card stagger-child">
           <div class="num">1</div>
           <h5>求心力と情報力</h5>
           <p>水が低い場所に自然と流れ込むように、人脈・有益な情報・世間の注目を自分のもとに引き寄せる天性の魅力。</p>
         </div>
-        <div class="talent-card">
+        <div class="talent-card stagger-child">
           <div class="num">2</div>
           <h5>経済観念とビジネスセンス</h5>
           <p>集めた人や情報を活かしてお金を大きく回し、大きな価値や経済圏を築き上げる能力。</p>
         </div>
-        <div class="talent-card">
+        <div class="talent-card stagger-child">
           <div class="num">3</div>
           <h5>言葉とコミュニケーション</h5>
           <p>七赤金星が司る「兌（口・言葉）」の力。キャッチーな言葉のセンスと表現力で、人の心を動かす。</p>
         </div>
       </div>
+      <p style="margin-top:22px;">Momona様の月干支は、まさにこの七赤金星。ここに並んだ名前たちと同じ星を、静かに内側に宿している。</p>
     </div>
   </div>
 </section>
@@ -350,24 +537,25 @@
 <!-- ============ 05 奇跡のパートナーシップ ============ -->
 <section>
   <div class="wrap">
+    <div class="sec-title-mark"><span class="dot"></span></div>
     <div class="sec-eyebrow">Chapter 05</div>
     <div class="sec-title">奇跡のパートナーシップ</div>
-    <div class="metaphor">
+    <div class="metaphor reveal">
       <div class="big"><span class="h">大樹</span>と、それを育む<span class="m">大地</span></div>
     </div>
-    <div class="synergy-grid">
-      <div class="synergy-card">
+    <div class="synergy-grid reveal-stagger reveal">
+      <div class="synergy-card stagger-child">
         <div class="tagline">Business — 攻守タッグ</div>
         <h4>種を見つける人、種を実らせる人</h4>
         <p>Hokuto様が風のように外の世界を巡り、まだ誰も見つけていない種を掴んで帰ってくる。Momona様が、その種を大地に受け止め、根を張らせ、時間をかけて実らせていく。どちらか一方では、決して完結しない循環。</p>
       </div>
-      <div class="synergy-card">
+      <div class="synergy-card stagger-child">
         <div class="tagline">Life — 共生の美しさ</div>
         <h4>五行が語る、対立しない二つの気</h4>
         <p>木と土は、対立しない。大地があるから木は根を張ることができ、木があるから大地は緑を纏うことができる。お二人の関係は、たとえ話ではなく構造として、そのようにできている。</p>
       </div>
     </div>
-    <div class="bond-full">
+    <div class="bond-full reveal">
       <div class="row">
         <div class="col h">
           <h5>Hokuto様にとって、あなたは</h5>
@@ -380,24 +568,44 @@
         </div>
       </div>
     </div>
+
+    <div class="motto-pair reveal" style="margin-top:22px;">
+      <div class="side h">
+        <div class="seal">以和<br>爲貴</div>
+        <div class="yomi">いわいき</div>
+        <p>外へ向かい、能動的に和を紡ぐ生き方。</p>
+        <span class="src">十七条憲法 第一条</span>
+      </div>
+      <div class="center-mark"><div class="plus">×</div></div>
+      <div class="side m">
+        <div class="seal">桃李<br>成蹊</div>
+        <div class="yomi">とうりせいけい</div>
+        <p>語らずとも、内から自然に和が生まれる在り方。</p>
+        <span class="src">『史記』李将軍列伝</span>
+      </div>
+    </div>
+    <div class="motto-synth reveal">
+      <p>外へ出て和を<span class="hl-blue">「結びに行く」</span>Hokuto様と、動かずとも和が<span class="hl">「結ばれてくる」</span>Momona様。能動と受動、二つの座右の句はそのまま「風」と「澤」の関係と重なる。それぞれが大切にしてきた四字熟語が、命式の本質をそのまま言い当てていたということ。</p>
+    </div>
   </div>
 </section>
 
 <!-- ============ 06 引っ越し吉方位ガイド ============ -->
 <section class="tinted">
   <div class="wrap">
+    <div class="sec-title-mark"><span class="dot"></span></div>
     <div class="sec-eyebrow">Chapter 06</div>
     <div class="sec-title">引っ越し吉方位ガイド</div>
     <div class="sec-lede">同居予定・入居タイミングは調整可 ／ Hokuto：9/7〜10/7（1ヶ月）／ Momona：9/7〜11/6（2ヶ月）／ 候補地：四街道駅周辺</div>
-    <div class="compass-grid">
-      <div class="compass-card">
+    <div class="compass-grid reveal-stagger reveal">
+      <div class="compass-card stagger-child">
         <h4>Hokuto の吉方位</h4>
         <div class="compass-meta">起点：千葉県習志野市 ／ 鑑定日：2026年8月10日</div>
         <div class="score-row top"><span>千葉市・東金市方面（南東寄り）</span><span class="pt">100点</span></div>
         <div class="score-row"><span>成田市・香取市方面（北東寄り）</span><span class="pt">70点</span></div>
         <div class="score-row"><span>川崎市・横須賀市方面（南西寄り）</span><span class="pt">90点</span></div>
       </div>
-      <div class="compass-card">
+      <div class="compass-card stagger-child">
         <h4>Momona の吉方位</h4>
         <div class="compass-meta">起点：千葉県八街市 ／ 鑑定日：2026年8月10日</div>
         <div class="score-row bad"><span>稲敷市方面（北）</span><span class="pt">凶方位 ×</span></div>
@@ -408,7 +616,7 @@
       </div>
     </div>
 
-    <div class="verify-box">
+    <div class="verify-box reveal">
       <div style="font-family:'Shippori Mincho', serif; font-size:15px; margin-bottom:6px;">候補地：四街道駅周辺の方位判定</div>
       <table class="verify-table">
         <tr><th style="width:16%">対象</th><th style="width:34%">位置関係</th><th>判定</th></tr>
@@ -440,10 +648,12 @@
 <!-- ============ 07 二人の道のり ============ -->
 <section>
   <div class="wrap">
+    <div class="sec-title-mark"><span class="dot"></span></div>
     <div class="sec-eyebrow">Chapter 07</div>
     <div class="sec-title">二人の道のり ― 2026 → 2027</div>
-    <div class="timeline-wrap">
-      <div class="tl-item">
+    <div class="sec-lede">四街道での新しい暮らしが根を張り始める頃、それぞれの運気は次の季節へと動き出す。準備の年から、開花の年へ。</div>
+    <div class="timeline-wrap reveal-stagger reveal">
+      <div class="tl-item stagger-child">
         <div class="yr">2026</div>
         <div class="content">
           <span class="who h">Hokuto</span>
@@ -451,7 +661,7 @@
           <p>自分自身を静かに見つめ直し、次の大飛躍に向けて内面と基盤を整える時期。</p>
         </div>
       </div>
-      <div class="tl-item">
+      <div class="tl-item stagger-child">
         <div class="yr"></div>
         <div class="content">
           <span class="who m">Momona</span>
@@ -459,7 +669,7 @@
           <p>多様な仕事・企画・アイデアを精力的に仕込んでおく準備期間。</p>
         </div>
       </div>
-      <div class="tl-item">
+      <div class="tl-item stagger-child">
         <div class="yr">2027</div>
         <div class="content">
           <span class="who h">Hokuto</span>
@@ -467,7 +677,7 @@
           <p>準備してきた成果が一気に芽吹き、表舞台で大きな注目を浴びて活躍する年。健康診断推奨日：2月4日。</p>
         </div>
       </div>
-      <div class="tl-item">
+      <div class="tl-item stagger-child">
         <div class="yr"></div>
         <div class="content">
           <span class="who m">Momona</span>
@@ -476,7 +686,7 @@
         </div>
       </div>
     </div>
-    <div class="money-row">
+    <div class="money-row reveal">
       <div class="money-chip"><div class="k">環境</div><div class="v">職場を変える</div></div>
       <div class="money-chip"><div class="k">事業</div><div class="v">新規事業に着手</div></div>
       <div class="money-chip"><div class="k">年収</div><div class="v">過去最高益</div></div>
@@ -487,9 +697,10 @@
 <!-- ============ 08 結びのメッセージ ============ -->
 <section class="tinted">
   <div class="wrap">
+    <div class="sec-title-mark"><span class="dot"></span></div>
     <div class="sec-eyebrow">Chapter 08</div>
     <div class="sec-title">結びに</div>
-    <div class="letter">
+    <div class="letter reveal">
       <div class="to">To Momona</div>
       <p>淡い<span class="accent2">桜色</span>と、朝の<span class="accent">水色</span>。<br>そのどちらが欠けても、あの空の色にはならない。</p>
       <p>混ざり合うのではなく、隣り合って、互いをより美しく見せる。<br>お二人が並んで立つ姿は、ちょうどそういう景色をしている。</p>
@@ -507,6 +718,40 @@
   方位スコアは市役所所在地を起点とした鑑定アプリの表示に基づく概算値であり、実際の入居予定住所とは異なる場合がある。最終判断は必ず実住所での確認を経ること。<br>
   本書は個人的な贈り物として作成されたもの。 ／ 鑑定日：2026年8月10日
 </footer>
+
+<script>
+(function(){
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // 読了プログレス
+  var fill = document.getElementById('progressFill');
+  function updateProgress(){
+    var h = document.documentElement;
+    var scrolled = h.scrollTop;
+    var height = h.scrollHeight - h.clientHeight;
+    var pct = height > 0 ? (scrolled / height) * 100 : 0;
+    if (fill) fill.style.width = pct + '%';
+  }
+  document.addEventListener('scroll', updateProgress, { passive:true });
+  updateProgress();
+
+  // スクロールリビール
+  var targets = document.querySelectorAll('.reveal');
+  if (reduceMotion || !('IntersectionObserver' in window)){
+    targets.forEach(function(el){ el.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold:0.15, rootMargin:'0px 0px -8% 0px' });
+    targets.forEach(function(el){ io.observe(el); });
+  }
+})();
+</script>
 
 </body>
 </html>
